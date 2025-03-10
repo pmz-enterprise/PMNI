@@ -1,4 +1,4 @@
-# PMNI:ose-free Multi-view Normal Integration for Reflective and Textureless Surface Reconstruction
+# PMNI: Pose-free Multi-view Normal Integration for Reflective and Textureless Surface Reconstruction
 By Mingzhi Pei, Xu Cao, Xiangyi Wang, Heng Guo#, Zhanyu Ma 
 
 # Abstract
@@ -7,7 +7,7 @@ Multi-view 3D reconstruction for reflective and textureless surfaces remains a c
 #Bibtex
 ```
 @inproceedings{pmni2025pei,
-title = {PMNI:ose-free Multi-view Normal Integration for Reflective and Textureless Surface Reconstruction},
+title = {PMNI: Pose-free Multi-view Normal Integration for Reflective and Textureless Surface Reconstruction},
 author = {Mingzhi Pei, Xu Cao, Xiangyi Wang, Heng Guo#, Zhanyu Ma },
 year = {2025},
 booktitle = CVPR,
