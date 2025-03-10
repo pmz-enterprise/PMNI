@@ -13,7 +13,7 @@ Multi-view 3D reconstruction for reflective and textureless surfaces remains a c
 ```
 @inproceedings{pmni2025pei,
 title = {PMNI: Pose-free Multi-view Normal Integration for Reflective and Textureless Surface Reconstruction},
-author = {Mingzhi Pei, Xu Cao, Xiangyi Wang, Heng Guo#, Zhanyu Ma },
+author = {Mingzhi, Pei and Xu, Cao and Xiangyi, Wang and Heng, Guo and Zhanyu, Ma },
 year = {2025},
 booktitle = CVPR,
 }
