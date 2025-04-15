@@ -1,6 +1,12 @@
 # PMNI: Pose-free Multi-view Normal Integration for Reflective and Textureless Surface Reconstruction
 By Mingzhi Pei, Xu Cao, Xiangyi Wang, Heng Guo#, Zhanyu Ma 
 
+<p align="center">
+  <br>
+    <a href="http://arxiv.org/abs/2504.08410">
+      <img src='https://img.shields.io/badge/arXiv-Paper-981E32?style=for-the-badge&Color=B31B1B' alt='arXiv PDF'>
+    </a>
+
 
 # Abstract
 Reflective and textureless surfaces remain a challenge in multi-view 3D reconstruction.Both camera pose calibration and shape reconstruction often fail due to insufficient or unreliable cross-view visual features.
