@@ -1,11 +1,17 @@
 # PMNI: Pose-free Multi-view Normal Integration for Reflective and Textureless Surface Reconstruction
-By Mingzhi Pei, Xu Cao, Xiangyi Wang, Heng Guo#, Zhanyu Ma 
+Project page:  https://pmz-enterprise.github.io/PMNI/
 
 <p align="center">
   <br>
     <a href="http://arxiv.org/abs/2504.08410">
       <img src='https://img.shields.io/badge/arXiv-Paper-981E32?style=for-the-badge&Color=B31B1B' alt='arXiv PDF'>
     </a>
+
+# Correction: 
+Equation (13) in the main text of the paper is incorrect. It should be:
+$$
+\alpha \equiv \frac{\mathbf{z}^{r} \cdot \mathbf{z}^ni}{\mathbf{z}^ni \cdot \mathbf{z}^ni}.
+$$
 
 
 # Abstract
