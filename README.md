@@ -15,7 +15,7 @@ To address these issues, we present PMNI (Pose-free Multi-view Normal Integratio
 # Data
 Our data is available at :
 
-Google drive:
+![Google Drive Icon](https://example.com/path/to/google-drive-icon.png) Google drive:
 https://drive.google.com/drive/folders/17Z2dsgfqZRzqu-7xMk8Z1QWBATu48zGz?usp=sharing
 
 # Code
