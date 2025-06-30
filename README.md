@@ -12,10 +12,6 @@ By Mingzhi Pei, Xu Cao, Xiangyi Wang, Heng Guo#, Zhanyu Ma
 Reflective and textureless surfaces remain a challenge in multi-view 3D reconstruction.Both camera pose calibration and shape reconstruction often fail due to insufficient or unreliable cross-view visual features.
 To address these issues, we present PMNI (Pose-free Multi-view Normal Integration), a neural surface reconstruction method that incorporates rich geometric information by leveraging surface normal maps instead of RGB images. By enforcing geometric constraints from surface normals and multi-view shape consistency within a neural signed distance function (SDF) optimization framework, PMNI simultaneously recovers accurate camera poses and high-fidelity surface geometry. Experimental results on synthetic and real-world datasets show that our method achieves state-of-the-art performance in the reconstruction of reflective surfaces, even without reliable initial camera poses.
 
-# Video
-Our supplementary video is available at: 
-https://youtu.be/hLIZG24m1Wo
-
 # Data
 Our data is available at :
 
@@ -24,6 +20,11 @@ https://drive.google.com/drive/folders/17Z2dsgfqZRzqu-7xMk8Z1QWBATu48zGz?usp=sha
 
 # Code
 I'm adding some config files
+
+# Video
+Our supplementary video is available at: 
+https://youtu.be/hLIZG24m1Wo
+
 
 # Bibtex
 ```
