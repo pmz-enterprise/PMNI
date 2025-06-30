@@ -10,7 +10,7 @@ Project page:  https://pmz-enterprise.github.io/PMNI/
 # Correction: 
 Equation (13) in the main text of the paper is incorrect. It should be:
 
-$$\alpha \equiv \frac{\mathbf{z}^{r} \cdot \mathbf{z}^ni}{\mathbf{z}^ni \cdot \mathbf{z}^ni}.$$
+$$\alpha \equiv \frac{\mathbf{z}^{r} \cdot \mathbf{z}^{ni}}{\mathbf{z}^{ni} \cdot \mathbf{z}^{ni}}.$$
 
 
 # Abstract
