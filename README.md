@@ -16,7 +16,14 @@ To address these issues, we present PMNI (Pose-free Multi-view Normal Integratio
 Our supplementary video is available at: 
 https://youtu.be/hLIZG24m1Wo
 
-# Code and Data Coming soon...
+# Data
+Our data is available at :
+
+Google drive:
+https://drive.google.com/drive/folders/17Z2dsgfqZRzqu-7xMk8Z1QWBATu48zGz?usp=sharing
+
+# Code
+I'm adding some config files
 
 # Bibtex
 ```
