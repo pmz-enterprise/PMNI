@@ -127,7 +127,7 @@ class Loss(nn.Module):
         return depth_loss
     
     
-    def get_con_loss3(self, 
+    def get_con_loss(self, 
                   weights_cuda_filtered=None,     # (num_points)
                   normal_world_all=None,          # (num_points, num_cams, 3)
                   visibility_mask=None):          # (num_points, num_cams)
@@ -219,7 +219,7 @@ class Loss(nn.Module):
             sdf_loss = torch.tensor(0.0).cuda().float()
 
         if(weights['con_weight']!=0.0):
-            con_loss = self.get_con_loss3(weights_cuda_filtered = weights_cuda_filtered,#(num_points
+            con_loss = self.get_con_loss(weights_cuda_filtered = weights_cuda_filtered,#(num_points
                                         normal_world_all=normal_world_all,#(num_points, num_cams, 3)
                                         visibility_mask = visibility_mask)#(num_points, num_cams)
         else:
