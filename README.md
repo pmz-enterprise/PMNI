@@ -64,7 +64,7 @@ https://youtu.be/hLIZG24m1Wo
 
 # Bibtex
 ```
-@inproceedings{pmni2025pei,
+@inproceedings{pmni,
 title = {PMNI: Pose-free Multi-view Normal Integration for Reflective and Textureless Surface Reconstruction},
 author = {Mingzhi, Pei and Xu, Cao and Xiangyi, Wang and Heng, Guo and Zhanyu, Ma },
 year = {2025},
