@@ -63,3 +63,40 @@ def sample_positions_torch(radius_range, num_cameras,seed = 30):
     positions = torch.stack((xs, ys, zs), dim=1)
     return positions
 
+def sample_points_on_sphere_uniform_range(
+    latitude_range_deg,  # 指定纬度范围，例如 (15, 30)
+    radius, 
+    num_points, 
+    clockwise=True, 
+    seed=None
+):
+    # 设置随机种子，保证每次生成的随机纬度分布一致（方便复现）
+    if seed is not None:
+        torch.manual_seed(seed)
+        
+    min_lat, max_lat = latitude_range_deg
+    
+    # 1. 随机生成 num_points 个在指定范围内的纬度（角度制）
+    # torch.rand 生成 [0, 1) 之间的均匀随机数
+    latitudes_deg = min_lat + (max_lat - min_lat) * torch.rand(num_points)
+    
+    # 2. 将角度制转换为弧度制
+    latitudes_rad = torch.deg2rad(latitudes_deg)
+    
+    # 3. 生成均匀分布的经度（0 到 2π）
+    if clockwise:
+        longitudes = torch.linspace(0, -2 * torch.pi + 2 * torch.pi / num_points, num_points)
+    else:
+        longitudes = torch.linspace(0, 2 * torch.pi - 2 * torch.pi / num_points, num_points)
+
+    # 4. 核心步骤：球坐标转笛卡尔坐标
+    # 注意：为了保证点在球面上均匀分布，Z轴直接使用随机数的余弦值计算
+    # 这样能避免在靠近极点（纬度极高）的地方出现点过于密集的情况
+    cos_lat = torch.cos(latitudes_rad)
+    sin_lat = torch.sin(latitudes_rad)
+    
+    x = radius * cos_lat * torch.cos(longitudes)
+    y = radius * cos_lat * torch.sin(longitudes)
+    z = radius * sin_lat  # 每个点的 z 轴高度现在是随机且独立的
+
+    return torch.stack((x, y, z), dim=1)

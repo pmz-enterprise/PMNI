@@ -14,7 +14,7 @@ from models.fields import SDFNetwork, SingleVarianceNetwork
 from models.pose_net import LearnPose
 from models.scale_net import LearnScale
 from models.losses import Loss
-from models.init_pose import sample_points_on_sphere_uniform, generate_c2w_matrices,sample_positions_torch
+from models.init_pose import sample_points_on_sphere_uniform, generate_c2w_matrices,sample_positions_torch,sample_points_on_sphere_uniform_range
 from models.posenet2 import LearnPose2
 import pyexr
 import time,ipdb
@@ -117,12 +117,14 @@ class Runner:
         num_points = self.dataset.n_images 
         latitude_deg = self.conf.get_float('general.pose_init_angle')  
         radius_range = (14, 15)
-        camera_position = sample_points_on_sphere_uniform(latitude_deg, radius, num_points,clockwise=False)
-
+        deg_range = (15, 35)
+        camera_position = sample_points_on_sphere_uniform_range(deg_range,radius,num_points,clockwise=True, seed=42)
+        #camera_position = sample_points_on_sphere_uniform(latitude_deg, radius, num_points,clockwise=True)
+        #一个是均匀环采样，另一个是一定纬度去采样
         at = torch.tensor([[0.0, 0.0, 0.0]], dtype=torch.float32)  # (1, 3)
         up = torch.tensor([[0.0, 0.0, -1.0]], dtype=torch.float32)  # (1, 3)
         c2w_matrices = generate_c2w_matrices(camera_position, at=at, up=up)
-        init_c2w =c2w_matrices.to(self.device) #self.dataset.pose_all 
+        init_c2w =c2w_matrices.to(self.device) 
         if(self.learn_pose):
             #pass
 
@@ -130,8 +132,8 @@ class Runner:
                 self.posenet = LearnPose(num_cams= self.num_cam,
                                          learn_R = self.conf.get_bool('model.LearnPose.learn_R'),
                                          learn_t = self.conf.get_bool('model.LearnPose.learn_t'),
-                                         init_c2w= self.dataset.pose_all#init_c2w
-                                         ).to(self.device)#self.dataset.pose_all
+                                         init_c2w = init_c2w
+                                         ).to(self.device)
             else:
                 self.posenet = LearnPose(num_cams= self.dataset.n_images,
                                          learn_R = self.conf.get_bool('model.LearnPose.learn_R'),
@@ -266,6 +268,7 @@ class Runner:
             self.writer.add_scalar('eikonal_loss', eikonal_loss, self.iter_step)
             self.writer.add_scalar('sdf_loss', sdf_loss, self.iter_step)
             self.writer.add_scalar('depth_loss', depth_loss, self.iter_step)
+            self.writer.add_scalar('con_loss', con_loss, self.iter_step)
            
             self.update_learning_rate()
 
@@ -469,7 +472,8 @@ class Runner:
             marching_plane_normal, \
             true_normal,\
             depth_toushi,\
-            mask = self.dataset.gen_random_patches_fixed_idx_pose(self.batch_size, 
+            mask,\
+            maskd = self.dataset.gen_random_patches_fixed_idx_pose(self.batch_size, 
                                                               patch_H=self.patch_size, 
                                                               patch_W=self.patch_size,
                                                               idx = idx,
@@ -489,7 +493,7 @@ class Runner:
             render_out = self.renderer.render(rays_o_patch_all,
                                               rays_d_patch_all,
                                               marching_plane_normal,
-                                              near, far, mask, c2ws, idx, con)
+                                              near, far, mask, c2ws, idx, maskd, con)
            
 
             if render_out['gradients'] is None:  # all rays are in the zero region of the occupancy grid
@@ -599,7 +603,8 @@ class Runner:
                                 visibility_mask = visibility_mask, #(num_points, num_cams)
                                 normal_world_all = normal_world_all, #(num_points, num_cams, 3)
                                 gradients_filtered = gradients_filtered, #(num_points, 3)
-                                weights_cuda_filtered =weights_cuda_filtered #(num_points
+                                weights_cuda_filtered =weights_cuda_filtered, #(num_points,3
+                                maskd = maskd
                                 )
             #if(idx == 0):
             #    loss_dict['loss'] = 9*loss_dict['loss']

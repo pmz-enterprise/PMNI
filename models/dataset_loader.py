@@ -98,11 +98,14 @@ class Dataset:
 
         self.masks_lis = sorted(glob(os.path.join(self.data_dir, 'mask/*.png')))
         self.masks_np = np.stack([cv.imread(im_name) for im_name in self.masks_lis]) / 255.0
+        self.maskds_lis = sorted(glob(os.path.join(self.data_dir, 'maskd/*.png')))
+        self.maskds_np = np.stack([cv.imread(im_name) for im_name in self.maskds_lis]) / 255.0
         
         if self.upsample_factor > 1:
             # resize mask
             self.masks_np = F.interpolate(torch.from_numpy(self.masks_np).permute(0, 3, 1, 2), scale_factor=self.upsample_factor, mode='nearest').permute(0, 2, 3, 1).numpy()
         self.masks_np = self.masks_np[..., 0]
+        self.maskds_np = self.maskds_np[..., 0]
         self.total_pixel = np.sum(self.masks_np)
 
         # set background of normal map to 0
@@ -135,6 +138,7 @@ class Dataset:
             pose = torch.from_numpy(pose).float()
 
         self.masks = torch.from_numpy(self.masks_np.astype(np.float32)).to(self.device) # [n_images, H, W]
+        self.maskds = torch.from_numpy(self.maskds_np.astype(np.float32)).to(self.device) # [n_images, H, W]
         self.intrinsics_all = torch.stack(self.intrinsics_all).to(self.device)   # [n_images, 4, 4]
         self.intrinsics_all_inv = torch.inverse(self.intrinsics_all)  # [n_images, 4, 4]
         self.focal_length = self.intrinsics_all[0][0, 0]
@@ -286,7 +290,7 @@ class Dataset:
                 mask
     
     def gen_random_patches_fixed_idx_pose(self, num_patch,patch_H=3, patch_W=3, idx = 0, pose=None):
-      
+    
         #ipdb.set_trace()
         patch_center_x = torch.randint(low=0+patch_W//2, high=self.W-1-patch_W//2, size=[num_patch], device=self.device)  # (num_patch, )
         patch_center_y = torch.randint(low=0+patch_H//2, high=self.H-1-patch_H//2, size=[num_patch], device=self.device)  # (num_patch, )
@@ -305,6 +309,7 @@ class Dataset:
         normals_world = torch.einsum('ij,bhwj->bhwi',rotation_matrix , normal)
         #normal_world = torch.matmul(normal, rotation_matrix.T)
         mask = self.masks[img_idx_expand, patch_center_y_all, patch_center_x_all].unsqueeze(-1)#[..., :1]     # (num_patch, patch_H, patch_W)
+        maskd = self.maskds[img_idx_expand, patch_center_y_all, patch_center_x_all].unsqueeze(-1)#[..., :1]     # (num_patch, patch_H, patch_W)
         depth_toushi = self.perspective[img_idx_expand, patch_center_y_all, patch_center_x_all].unsqueeze(-1)
 
         # compute all ray directions within patches
@@ -332,7 +337,8 @@ class Dataset:
                 marching_plane_normal, \
                 normals_world,\
                 depth_toushi,\
-                mask
+                mask,\
+                maskd
     
     def gen_random_patches_fixed_pose_world(self, num_patch,patch_H=3, patch_W=3, idx = 0, pose=None):
         

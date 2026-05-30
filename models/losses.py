@@ -169,9 +169,11 @@ class Loss(nn.Module):
                 normal_world_all = None, #(num_points, num_cams, 3)
                 gradients_filtered = None, #(num_points, 3)
                 weights_cuda_filtered = None, #(num_points, )
+                maskd = None,
                 normal_loss_type='l2', depth_loss_type = 'l1',**kwargs):
 
         mask = (mask > 0.5).float()
+        maskd = (maskd > 0.5).float()
 
 
         mask_sum = mask.sum() + 1e-5
@@ -203,7 +205,7 @@ class Loss(nn.Module):
 
 
         if weights['mask_weight']!=0.0: # mask_loss
-            mask_loss = self.get_mask_loss(mask = mask, comp_mask= comp_mask)
+            mask_loss = self.get_mask_loss(mask = maskd, comp_mask= comp_mask)
         else:
             mask_loss = torch.tensor(0.0).cuda().float()
 

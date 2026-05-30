@@ -8,7 +8,7 @@ from pypose import mat2SE3
 from .common import make_c2w
 import pytorch3d
 class LearnPose(nn.Module):
-    def __init__(self, num_cams, learn_R, learn_t,init_c2w=None):
+    def __init__(self, num_cams, learn_R, learn_t, init_c2w=None):
         """
         :param num_cams:
         :param learn_R:  True/False

@@ -74,6 +74,7 @@ class NeuSRenderer:
                      mask,
                      c2ws,
                      idx,
+                     maskd,
                      con =False,
                      val_gradient_method='ad',
                      mode='train'):
