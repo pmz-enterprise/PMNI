@@ -120,7 +120,7 @@ class Runner:
         deg_range = (15, 35)
         camera_position = sample_points_on_sphere_uniform_range(deg_range,radius,num_points,clockwise=True, seed=42)
         #camera_position = sample_points_on_sphere_uniform(latitude_deg, radius, num_points,clockwise=True)
-        #一个是均匀环采样，另一个是一定纬度去采样
+
         at = torch.tensor([[0.0, 0.0, 0.0]], dtype=torch.float32)  # (1, 3)
         up = torch.tensor([[0.0, 0.0, -1.0]], dtype=torch.float32)  # (1, 3)
         c2w_matrices = generate_c2w_matrices(camera_position, at=at, up=up)
